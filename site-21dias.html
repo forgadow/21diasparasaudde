@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>21 Dias — Transforme Sua Saúde de Vez</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --f0: #0C1410;
+  --f1: #162018;
+  --f2: #1E2E22;
+  --verde: #2D6A4F;
+  --verde-md: #40916C;
+  --verde-lt: #52B788;
+  --menta: #D8F3DC;
+  --creme: #F7F4EE;
+  --creme-escuro: #EDE9DF;
+  --dourado: #C8A84B;
+  --dourado-lt: #E8D48A;
+  --texto: #2A3028;
+  --texto-lt: #5A6E5C;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:var(--sans);
+  background:var(--creme);
+  color:var(--texto);
+  overflow-x:hidden;
+}
+
+/* ── CURSOR personalizado ── */
+*, a, button { cursor: none; }
+.cursor {
+  position:fixed;
+  width:10px;height:10px;
+  background:var(--verde-lt);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.08s,width 0.2s,height 0.2s,background 0.2s;
+  mix-blend-mode:multiply;
+}
+.cursor-ring {
+  position:fixed;
+  width:36px;height:36px;
+  border:1px solid var(--verde-md);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.18s cubic-bezier(.25,.46,.45,.94);
+  opacity:0.6;
+}
+.cursor.hover{width:20px;height:20px;background:var(--dourado)}
+.cursor-ring.hover{width:56px;height:56px;border-color:var(--dourado);opacity:0.4}
+
+/* ── GRAIN OVERLAY ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9997;
+  opacity:0.45;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  padding:20px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.4s,backdrop-filter 0.4s,padding 0.3s;
+}
+nav.scrolled{
+  background:rgba(12,20,16,0.92);
+  backdrop-filter:blur(16px);
+  padding:14px 60px;
+}
+.nav-logo{
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:600;
+  color:var(--menta);
+  letter-spacing:0.02em;
+}
+.nav-cta{
+  background:transparent;
+  border:1px solid rgba(82,183,136,0.4);
+  color:var(--verde-lt);
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:500;
+  padding:10px 24px;
+  border-radius:2px;
+  text-decoration:none;
+  transition:all 0.2s;
+  letter-spacing:0.04em;
+}
+.nav-cta:hover{background:var(--verde-lt);color:var(--f0);border-color:var(--verde-lt)}
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.hero{
+  min-height:100vh;
+  background:var(--f0);
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+}
+
+/* fundo: círculos de luz */
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 55% 55% at 75% 45%, #2D6A4F1A 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 20% 80%, #C8A84B0D 0%, transparent 60%);
+  pointer-events:none;
+}
+
+/* linhas botânicas decorativas SVG inline */
+.hero-deco{
+  position:absolute;
+  pointer-events:none;
+  opacity:0.08;
+}
+.hero-deco-tl{top:-60px;left:-60px;width:400px;transform:rotate(-15deg)}
+.hero-deco-br{bottom:-40px;right:-40px;width:360px;transform:rotate(165deg)}
+
+.hero-left{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:120px 56px 80px 80px;
+  position:relative;
+  z-index:2;
+}
+
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:40px;
+  opacity:0;
+  animation:fadeUp 0.7s 0.2s forwards;
+}
+.kicker-line{width:32px;height:1px;background:var(--verde-lt);opacity:0.6}
+.kicker-text{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--verde-lt);
+}
+
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(44px,5.5vw,76px);
+  font-weight:300;
+  line-height:1.05;
+  color:var(--creme);
+  margin-bottom:32px;
+  opacity:0;
+  animation:fadeUp 0.8s 0.35s forwards;
+}
+.hero h1 em{
+  font-style:italic;
+  font-weight:600;
+  color:var(--verde-lt);
+  display:block;
+}
+.hero h1 strong{
+  font-weight:700;
+  color:var(--dourado-lt);
+}
+
+.hero-desc{
+  font-size:16px;
+  font-weight:300;
+  color:#7A9A7E;
+  line-height:1.75;
+  max-width:400px;
+  margin-bottom:52px;
+  opacity:0;
+  animation:fadeUp 0.8s 0.5s forwards;
+}
+
+.hero-cta-group{
+  display:flex;flex-direction:column;gap:14px;
+  max-width:340px;
+  opacity:0;
+  animation:fadeUp 0.8s 0.65s forwards;
+}
+
+.btn-hero{
+  display:block;
+  background:var(--verde-lt);
+  color:var(--f0);
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:500;
+  padding:20px 36px;
+  border:none;
+  border-radius:2px;
+  text-decoration:none;
+  text-align:center;
+  letter-spacing:0.02em;
+  transition:all 0.25s cubic-bezier(.25,.46,.45,.94);
+  position:relative;
+  overflow:hidden;
+}
+.btn-hero::before{
+  content:'';
+  position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+  transition:left 0.5s;
+}
+.btn-hero:hover{background:#74CFA4;transform:translateY(-3px);box-shadow:0 16px 40px rgba(82,183,136,0.25)}
+.btn-hero:hover::before{left:100%}
+
+.hero-nota{
+  font-size:12px;
+  color:#3A5040;
+  text-align:center;
+  letter-spacing:0.03em;
+}
+.hero-nota span{color:var(--verde-lt)}
+
+/* HERO RIGHT — book 3D */
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;
+  padding:120px 60px 80px;
+}
+
+.book-scene{
+  perspective:1000px;
+  animation:floatScene 6s ease-in-out infinite;
+}
+@keyframes floatScene{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
+
+.book-3d{
+  width:220px;height:300px;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateY(-18deg) rotateX(5deg);
+  filter:drop-shadow(0 40px 60px rgba(0,0,0,0.6));
+}
+
+/* capa */
+.book-front{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg, #1B4332 0%, #2D6A4F 35%, #40916C 65%, #52B788 100%);
+  border-radius:2px 10px 10px 2px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:32px 24px;
+  backface-visibility:hidden;
+  overflow:hidden;
+}
+.book-front::before{/* brilho lateral */
+  content:'';
+  position:absolute;top:0;left:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#74CFA4,#2D6A4F,#74CFA4);
+  opacity:0.6;
+}
+.book-front::after{/* borda sutil interna */
+  content:'';
+  position:absolute;inset:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:6px;
+  pointer-events:none;
+}
+
+/* lombada */
+.book-spine{
+  position:absolute;
+  top:0;left:-20px;bottom:0;width:20px;
+  background:linear-gradient(90deg,#0d1a12,#1B4332);
+  border-radius:4px 0 0 4px;
+  transform:rotateY(90deg) translateZ(0px);
+}
+
+/* sombra do livro no chão */
+.book-shadow{
+  position:absolute;
+  bottom:-30px;left:10%;right:10%;
+  height:30px;
+  background:radial-gradient(ellipse,rgba(0,0,0,0.5) 0%,transparent 70%);
+  filter:blur(10px);
+  transform:rotateX(80deg);
+}
+
+.book-leaf{font-size:52px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3))}
+.book-titulo{
+  font-family:var(--serif);
+  font-size:20px;font-weight:600;
+  color:#D8F3DC;
+  text-align:center;line-height:1.2;
+  margin-bottom:6px;
+}
+.book-subtitulo{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:#74CFA4;
+  text-align:center;
+}
+
+/* badge preço */
+.book-badge{
+  position:absolute;
+  top:-18px;right:-18px;
+  width:72px;height:72px;
+  background:var(--dourado);
+  border-radius:50%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(200,168,75,0.4);
+  animation:badgePulse 2.5s ease-in-out infinite;
+}
+@keyframes badgePulse{0%,100%{box-shadow:0 8px 24px rgba(200,168,75,0.4)}50%{box-shadow:0 8px 40px rgba(200,168,75,0.7)}}
+.badge-de{font-size:9px;color:rgba(0,0,0,0.5);text-decoration:line-through;line-height:1}
+.badge-val{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--f0);line-height:1}
+.badge-cx{font-size:9px;color:rgba(0,0,0,0.6);line-height:1}
+
+/* ── NÚMEROS ── */
+.numeros{
+  background:var(--verde);
+  padding:52px 80px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.num-item{
+  text-align:center;
+  padding:0 20px;
+  border-right:1px solid rgba(255,255,255,0.1);
+}
+.num-item:last-child{border-right:none}
+.num-valor{
+  font-family:var(--serif);
+  font-size:52px;font-weight:700;
+  color:var(--dourado-lt);
+  line-height:1;margin-bottom:8px;
+}
+.num-label{font-size:13px;color:rgba(216,243,220,0.65);font-weight:300}
+
+/* ═══════════════════════════════
+   SOBRE O MÉTODO
+═══════════════════════════════ */
+.metodo{
+  background:var(--creme);
+  padding:120px 80px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.section-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;
+}
+.eyebrow-line{width:28px;height:1px;background:var(--verde-lt)}
+.eyebrow-text{
+  font-size:11px;font-weight:500;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--verde);
+}
+
+.section-h{
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,56px);
+  font-weight:300;
+  line-height:1.12;
+  color:var(--f0);
+  margin-bottom:72px;
+  max-width:640px;
+}
+.section-h em{font-style:italic;font-weight:600;color:var(--verde)}
+
+/* grid módulos */
+.modulos-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+.modulo{
+  background:white;
+  padding:40px 36px;
+  position:relative;
+  overflow:hidden;
+  transition:background 0.3s;
+}
+.modulo:hover{background:#F0F5F1}
+.modulo::before{/* linha superior animada */
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:var(--verde-lt);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s cubic-bezier(.25,.46,.45,.94);
+}
+.modulo:hover::before{transform:scaleX(1)}
+
+.modulo-num{
+  font-family:var(--serif);
+  font-size:64px;font-weight:700;
+  color:var(--menta);
+  line-height:1;
+  margin-bottom:20px;
+  display:block;
+}
+.modulo h3{
+  font-family:var(--serif);
+  font-size:20px;font-weight:600;
+  color:var(--f0);
+  margin-bottom:12px;
+  line-height:1.25;
+}
+.modulo p{font-size:14px;color:var(--texto-lt);line-height:1.7;font-weight:300}
+
+/* bônus */
+.bonus-faixa{
+  background:var(--f1);
+  padding:80px;
+  margin:0;
+}
+.bonus-inner{max-width:1200px;margin:0 auto}
+.bonus-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:24px;margin-top:48px;
+}
+.bonus-card{
+  background:#1E2E22;
+  border:1px solid #2A3A2E;
+  border-radius:8px;
+  padding:32px 28px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.bonus-card:hover{border-color:var(--verde-lt);transform:translateY(-4px)}
+.bonus-tag{
+  display:inline-block;
+  background:#2D6A4F33;border:1px solid #52B78844;
+  color:var(--verde-lt);
+  font-size:10px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;
+  margin-bottom:16px;
+}
+.bonus-card h4{
+  font-family:var(--serif);
+  font-size:20px;font-weight:600;color:var(--menta);
+  margin-bottom:10px;
+}
+.bonus-card p{font-size:13px;color:#5A7060;line-height:1.65;font-weight:300}
+.bonus-val{
+  font-family:var(--serif);
+  font-size:13px;color:var(--dourado-lt);
+  margin-top:20px;
+}
+
+/* ═══════════════
+   DEPOIMENTOS
+═══════════════ */
+.depoimentos{
+  background:var(--creme-escuro);
+  padding:120px 80px;
+}
+.depo-inner{max-width:1200px;margin:0 auto}
+.depo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+
+.depo-card{
+  background:white;
+  border:1px solid #E4DFD4;
+  border-radius:4px;
+  padding:36px 32px;
+  position:relative;
+  transition:box-shadow 0.3s,transform 0.3s;
+}
+.depo-card:hover{
+  box-shadow:0 12px 40px rgba(45,106,79,0.1);
+  transform:translateY(-4px);
+}
+.aspas{
+  font-family:var(--serif);
+  font-size:80px;line-height:0.6;
+  color:var(--menta);
+  margin-bottom:16px;
+  display:block;
+}
+.depo-texto{
+  font-family:var(--serif);
+  font-size:17px;font-weight:300;
+  font-style:italic;
+  color:var(--texto);
+  line-height:1.7;
+  margin-bottom:28px;
+}
+.depo-footer{display:flex;align-items:center;gap:14px}
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--verde);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:16px;font-weight:600;color:var(--menta);
+  flex-shrink:0;
+}
+.depo-nome{font-size:14px;font-weight:500;color:var(--f0)}
+.depo-cidade{font-size:12px;color:var(--texto-lt)}
+.estrelas{color:var(--dourado);font-size:13px;letter-spacing:2px;margin-bottom:6px}
+
+/* ═════════════════════════════
+   OFERTA — bloco principal
+═════════════════════════════ */
+.oferta{
+  background:var(--f0);
+  padding:120px 80px;
+  position:relative;
+  overflow:hidden;
+}
+.oferta::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 50% 50%,#2D6A4F14 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.oferta-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+  position:relative;z-index:1;
+}
+
+.oferta-esq{}
+.oferta h2{
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,56px);
+  font-weight:300;line-height:1.1;
+  color:var(--creme);margin-bottom:20px;
+}
+.oferta h2 em{font-style:italic;font-weight:600;color:var(--verde-lt)}
+.oferta-desc{font-size:15px;color:#5A7060;font-weight:300;line-height:1.75;margin-bottom:40px}
+
+.incluso-list{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
+.incluso-row{
+  display:flex;align-items:center;gap:14px;
+  font-size:14px;color:#8AAA8E;font-weight:300;
+}
+.incluso-check{
+  width:22px;height:22px;
+  background:#2D6A4F22;border:1px solid #52B78844;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--verde-lt);
+  flex-shrink:0;
+}
+
+/* card preço */
+.preco-card{
+  background:#1C2420;
+  border:1px solid #2A3A2E;
+  border-radius:12px;
+  padding:48px 40px;
+  text-align:center;
+}
+.preco-de{font-size:14px;color:#3A5040;text-decoration:line-through;margin-bottom:8px}
+.preco-por{
+  font-family:var(--serif);
+  font-size:80px;font-weight:700;
+  color:var(--verde-lt);line-height:1;
+  margin-bottom:4px;
+}
+.preco-por sup{font-size:36px;vertical-align:super}
+.preco-parcela{font-size:13px;color:#3A5040;margin-bottom:36px}
+
+.btn-comprar{
+  display:block;width:100%;
+  background:var(--verde-lt);
+  color:var(--f0);
+  font-family:var(--sans);font-size:16px;font-weight:500;
+  padding:22px 36px;
+  border:none;border-radius:2px;
+  text-decoration:none;text-align:center;
+  letter-spacing:0.02em;
+  transition:all 0.25s;
+  position:relative;overflow:hidden;
+}
+.btn-comprar::before{
+  content:'';position:absolute;
+  top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+  transition:left 0.5s;
+}
+.btn-comprar:hover{background:#74CFA4;transform:translateY(-2px);box-shadow:0 16px 40px rgba(82,183,136,0.25)}
+.btn-comprar:hover::before{left:100%}
+
+.selos{
+  display:flex;justify-content:center;gap:24px;
+  margin-top:24px;flex-wrap:wrap;
+}
+.selo{display:flex;align-items:center;gap:6px;font-size:12px;color:#3A5040}
+.selo-i{font-size:16px}
+
+/* ══════════════════
+   GARANTIA
+══════════════════ */
+.garantia{
+  background:white;
+  padding:100px 80px;
+}
+.garantia-inner{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;gap:64px;
+}
+.garantia-circulo{
+  width:160px;height:160px;flex-shrink:0;
+  border-radius:50%;
+  border:2px solid var(--verde-lt);
+  background:var(--menta);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.garantia-num{
+  font-family:var(--serif);
+  font-size:52px;font-weight:700;color:var(--verde);line-height:1;
+}
+.garantia-dias{
+  font-size:11px;font-weight:500;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--verde-md);
+}
+.garantia-txt h3{
+  font-family:var(--serif);
+  font-size:28px;font-weight:600;
+  color:var(--f0);margin-bottom:14px;
+}
+.garantia-txt p{font-size:15px;color:var(--texto-lt);line-height:1.75;font-weight:300}
+
+/* ══════════════════
+   FAQ
+══════════════════ */
+.faq{
+  background:var(--creme);
+  padding:100px 80px;
+}
+.faq-inner{max-width:800px;margin:0 auto}
+.faq-list{margin-top:56px;display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid #DDD8CE}
+.faq-q{
+  width:100%;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 0;
+  font-family:var(--serif);font-size:18px;font-weight:600;
+  color:var(--f0);text-align:left;
+  transition:color 0.2s;
+}
+.faq-q:hover{color:var(--verde)}
+.faq-icon{
+  font-size:20px;color:var(--verde-lt);
+  transition:transform 0.3s;flex-shrink:0;margin-left:16px;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s cubic-bezier(.25,.46,.45,.94),padding 0.3s;
+  font-size:15px;color:var(--texto-lt);line-height:1.75;font-weight:300;
+}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:24px}
+
+/* ══════════════════
+   FOOTER
+══════════════════ */
+footer{
+  background:var(--f0);
+  padding:60px 80px 40px;
+  text-align:center;
+}
+.footer-logo{
+  font-family:var(--serif);font-size:24px;font-weight:600;
+  color:var(--menta);margin-bottom:16px;
+}
+.footer-aviso{
+  font-size:12px;color:#2A3A2E;line-height:1.75;
+  max-width:700px;margin:0 auto 24px;
+}
+.footer-links a{
+  font-size:12px;color:#2A3A2E;text-decoration:none;margin:0 14px;
+  transition:color 0.2s;
+}
+.footer-links a:hover{color:var(--verde-lt)}
+
+/* ══════════════════
+   ANIMAÇÕES
+══════════════════ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity 0.7s cubic-bezier(.25,.46,.45,.94),transform 0.7s cubic-bezier(.25,.46,.45,.94);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+.reveal-delay-5{transition-delay:0.5s}
+
+/* ══════════════════════════════════════════
+   RESPONSIVO — Mobile First
+══════════════════════════════════════════ */
+
+/* ── Tablet e abaixo (≤900px) ── */
+@media(max-width:900px){
+  /* cursor desativado no touch */
+  .cursor,.cursor-ring{display:none}
+  *,a,button{cursor:auto}
+
+  /* nav */
+  nav{padding:14px 20px}
+  nav.scrolled{padding:12px 20px}
+  .nav-logo{font-size:18px}
+  .nav-cta{font-size:12px;padding:8px 16px}
+
+  /* hero */
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:0}
+  .hero-left{padding:88px 24px 36px;align-items:center;text-align:center}
+  .hero-kicker{justify-content:center}
+  .hero h1{font-size:clamp(38px,10vw,56px);text-align:center}
+  .hero-desc{text-align:center;font-size:15px;max-width:100%;margin-bottom:36px}
+  .hero-cta-group{max-width:100%;width:100%}
+  .btn-hero{font-size:16px;padding:18px 24px}
+  .hero-right{padding:16px 40px 52px;justify-content:center}
+  .book-3d{width:180px;height:248px}
+  .book-badge{width:60px;height:60px;top:-14px;right:-14px}
+  .badge-val{font-size:18px}
+
+  /* números */
+  .numeros{
+    grid-template-columns:repeat(2,1fr);
+    padding:40px 20px;
+    gap:0;
+  }
+  .num-item{
+    padding:20px 12px;
+    border-right:1px solid rgba(255,255,255,0.1);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .num-item:nth-child(2){border-right:none}
+  .num-item:nth-child(3){border-bottom:none}
+  .num-item:nth-child(4){border-right:none;border-bottom:none}
+  .num-valor{font-size:38px}
+
+  /* método */
+  .metodo{padding:64px 20px}
+  .modulos-grid{grid-template-columns:1fr;gap:2px}
+  .modulo{padding:28px 24px}
+
+  /* bônus */
+  .bonus-faixa{padding:64px 20px}
+  .bonus-grid{grid-template-columns:1fr;gap:16px}
+  .bonus-card{padding:24px 20px}
+
+  /* depoimentos */
+  .depoimentos{padding:64px 20px}
+  .depo-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .depo-card{padding:28px 24px}
+  .aspas{font-size:60px}
+
+  /* oferta */
+  .oferta{padding:64px 20px}
+  .oferta-inner{grid-template-columns:1fr;gap:40px}
+  .oferta h2{font-size:clamp(28px,8vw,44px)}
+  .preco-card{padding:36px 24px}
+  .preco-por{font-size:64px}
+  .btn-comprar{font-size:15px;padding:18px 24px}
+
+  /* garantia */
+  .garantia{padding:64px 20px}
+  .garantia-inner{flex-direction:column;text-align:center;gap:32px}
+  .garantia-circulo{width:130px;height:130px}
+  .garantia-num{font-size:44px}
+
+  /* faq */
+  .faq{padding:64px 20px}
+  .faq-q{font-size:16px;padding:20px 0}
+
+  /* cta final */
+  section[style*="background:var(--verde)"]{padding:60px 20px !important}
+
+  /* footer */
+  footer{padding:40px 20px 32px}
+  .footer-links a{margin:0 8px}
+}
+
+/* ── Mobile pequeno (≤480px) ── */
+@media(max-width:480px){
+  nav .nav-cta{display:none} /* esconde o botão nav — fica limpo */
+
+  .hero-left{padding:80px 18px 28px}
+  .hero h1{font-size:clamp(34px,11vw,48px)}
+  .hero-desc{font-size:14px}
+  .hero-right{padding:8px 24px 44px}
+  .book-3d{width:150px;height:206px}
+  .book-titulo{font-size:16px}
+  .book-leaf{font-size:38px}
+
+  .numeros{grid-template-columns:1fr;padding:32px 18px}
+  .num-item{border-right:none !important;border-bottom:1px solid rgba(255,255,255,0.1) !important}
+  .num-item:last-child{border-bottom:none !important}
+  .num-valor{font-size:44px}
+
+  .metodo{padding:52px 18px}
+  .section-h{font-size:clamp(26px,8vw,38px)}
+  .modulo{padding:24px 18px}
+  .modulo-num{font-size:48px}
+
+  .bonus-faixa{padding:52px 18px}
+  .depoimentos{padding:52px 18px}
+  .depo-texto{font-size:15px}
+
+  .oferta{padding:52px 18px}
+  .preco-card{padding:28px 18px}
+  .preco-por{font-size:56px}
+  .preco-por sup{font-size:28px}
+  .selos{gap:14px}
+  .selo{font-size:11px}
+
+  .garantia{padding:52px 18px}
+  .garantia-txt h3{font-size:22px}
+  .garantia-txt p{font-size:14px}
+
+  .faq{padding:52px 18px}
+  .faq-q{font-size:15px}
+
+  footer{padding:36px 18px 28px}
+  .footer-logo{font-size:20px}
+  .footer-aviso{font-size:11px}
+}
+
+/* ── Botão flutuante de compra no mobile ── */
+.fab-comprar{
+  display:none;
+  position:fixed;
+  bottom:20px;left:16px;right:16px;
+  z-index:200;
+  background:var(--verde-lt);
+  color:var(--f0);
+  font-family:var(--sans);
+  font-size:15px;font-weight:600;
+  padding:18px 24px;
+  border-radius:6px;
+  text-decoration:none;
+  text-align:center;
+  box-shadow:0 8px 32px rgba(82,183,136,0.4);
+  letter-spacing:0.02em;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.fab-comprar:active{transform:scale(0.98)}
+
+@media(max-width:900px){
+  .fab-comprar{display:block}
+  /* espaço no final da página para o FAB não cobrir conteúdo */
+  footer{padding-bottom:90px}
+}
+@media(max-width:480px){
+  footer{padding-bottom:100px}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSORES -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">21 Dias</div>
+  <a href="https://hidepay.site/checkout/v1/?id=OhFHtB6P37ZMaVx6HNyzBMFz" class="nav-cta" target="_blank" rel="noopener">Quero o e-book →</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <!-- decoração folhas SVG -->
+  <svg class="hero-deco hero-deco-tl" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 380 C200 380 80 300 40 180 C0 60 120 20 200 20 C280 20 400 60 360 180 C320 300 200 380 200 380Z" stroke="#52B788" stroke-width="1.5" fill="none"/>
+    <path d="M200 20 L200 380" stroke="#52B788" stroke-width="0.8"/>
+    <path d="M100 120 Q200 80 300 120" stroke="#52B788" stroke-width="0.6" fill="none"/>
+    <path d="M80 200 Q200 150 320 200" stroke="#52B788" stroke-width="0.6" fill="none"/>
+    <path d="M100 280 Q200 240 300 280" stroke="#52B788" stroke-width="0.6" fill="none"/>
+  </svg>
+  <svg class="hero-deco hero-deco-br" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 380 C200 380 80 300 40 180 C0 60 120 20 200 20 C280 20 400 60 360 180 C320 300 200 380 200 380Z" stroke="#52B788" stroke-width="1.5" fill="none"/>
+    <path d="M200 20 L200 380" stroke="#52B788" stroke-width="0.8"/>
+    <path d="M100 120 Q200 80 300 120" stroke="#52B788" stroke-width="0.6" fill="none"/>
+    <path d="M80 200 Q200 150 320 200" stroke="#52B788" stroke-width="0.6" fill="none"/>
+    <path d="M100 280 Q200 240 300 280" stroke="#52B788" stroke-width="0.6" fill="none"/>
+  </svg>
+
+  <div class="hero-left">
+    <div class="hero-kicker">
+      <span class="kicker-line"></span>
+      <span class="kicker-text">E-book Digital · Saúde e Bem-estar</span>
+    </div>
+    <h1>
+      Transforme<br>
+      <em>sua saúde</em>
+      em <strong>21 dias</strong>
+    </h1>
+    <p class="hero-desc">
+      O guia definitivo com hábitos simples e comprovados pela ciência para emagrecer, dormir melhor e recuperar sua energia — sem dietas radicais, sem sofrimento.
+    </p>
+    <div class="hero-cta-group">
+      <a href="https://hidepay.site/checkout/v1/?id=OhFHtB6P37ZMaVx6HNyzBMFz" class="btn-hero" target="_blank" rel="noopener">
+        Quero transformar minha saúde →
+      </a>
+      <p class="hero-nota">🔒 Apenas <span>R$ 27,00</span> · Garantia de 7 dias</p>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="book-scene">
+      <div class="book-3d">
+        <div class="book-front">
+          <div class="book-leaf">🌿</div>
+          <div class="book-titulo">21 Dias para Transformar Sua Saúde</div>
+          <div class="book-subtitulo">Guia Completo</div>
+        </div>
+        <div class="book-spine"></div>
+        <div class="book-shadow"></div>
+        <div class="book-badge">
+          <span class="badge-de">R$97</span>
+          <span class="badge-val">R$27</span>
+          <span class="badge-cx">hoje</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NÚMEROS ══ -->
+<section class="numeros">
+  <div class="num-item reveal">
+    <div class="num-valor">+3.200</div>
+    <div class="num-label">leitores transformados</div>
+  </div>
+  <div class="num-item reveal reveal-delay-1">
+    <div class="num-valor">21</div>
+    <div class="num-label">dias de conteúdo prático</div>
+  </div>
+  <div class="num-item reveal reveal-delay-2">
+    <div class="num-valor">4.9★</div>
+    <div class="num-label">avaliação média</div>
+  </div>
+  <div class="num-item reveal reveal-delay-3">
+    <div class="num-valor">7</div>
+    <div class="num-label">dias de garantia total</div>
+  </div>
+</section>
+
+<!-- ══ MÉTODO ══ -->
+<section>
+<div class="metodo">
+  <div class="section-eyebrow reveal">
+    <span class="eyebrow-line"></span>
+    <span class="eyebrow-text">O que está dentro</span>
+  </div>
+  <h2 class="section-h reveal">Seis módulos que <em>mudam tudo</em> sobre como você cuida de si</h2>
+
+  <div class="modulos-grid">
+    <div class="modulo reveal">
+      <span class="modulo-num">01</span>
+      <h3>A ciência dos hábitos</h3>
+      <p>Por que 95% das dietas falham — e como usar neurociência para criar mudanças permanentes sem força de vontade.</p>
+    </div>
+    <div class="modulo reveal reveal-delay-1">
+      <span class="modulo-num">02</span>
+      <h3>Alimentação sem sofrimento</h3>
+      <p>Estratégias simples para comer melhor sem contar calorias, sem proibir alimentos e sem culpa depois.</p>
+    </div>
+    <div class="modulo reveal reveal-delay-2">
+      <span class="modulo-num">03</span>
+      <h3>Movimento para qualquer agenda</h3>
+      <p>Rotinas de 15 minutos que funcionam em casa, no escritório ou na rua — mesmo sem academia.</p>
+    </div>
+    <div class="modulo reveal">
+      <span class="modulo-num">04</span>
+      <h3>Sono profundo e energia real</h3>
+      <p>Protocolo noturno de 5 passos para dormir profundamente e acordar disposto toda manhã.</p>
+    </div>
+    <div class="modulo reveal reveal-delay-1">
+      <span class="modulo-num">05</span>
+      <h3>Gestão do estresse</h3>
+      <p>Técnicas de respiração e mindfulness comprovadas para reduzir cortisol e reconquistar a calma no dia a dia.</p>
+    </div>
+    <div class="modulo reveal reveal-delay-2">
+      <span class="modulo-num">06</span>
+      <h3>Plano de 21 dias detalhado</h3>
+      <p>Um guia dia a dia com tarefas simples, checklists e espaço para anotações — para você não travar nem desistir.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ BÔNUS ══ -->
+<section class="bonus-faixa">
+  <div class="bonus-inner">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-line" style="background:#52B788"></span>
+      <span class="eyebrow-text" style="color:#52B788">Bônus exclusivos</span>
+    </div>
+    <h2 class="section-h reveal" style="color:var(--menta)">Você leva <em style="color:var(--verde-lt)">três presentes</em> junto com o e-book</h2>
+
+    <div class="bonus-grid">
+      <div class="bonus-card reveal">
+        <span class="bonus-tag">Bônus 1</span>
+        <h4>Planilha de Hábitos</h4>
+        <p>Rastreador semanal para acompanhar sua evolução nos 21 dias. Preencha no celular ou imprima.</p>
+        <div class="bonus-val">Valor: R$ 27,00 — incluso grátis</div>
+      </div>
+      <div class="bonus-card reveal reveal-delay-1">
+        <span class="bonus-tag">Bônus 2</span>
+        <h4>Lista de Compras Saudáveis</h4>
+        <p>Guia de mercado completo: o que comprar, o que evitar e como montar um estoque inteligente.</p>
+        <div class="bonus-val">Valor: R$ 17,00 — incluso grátis</div>
+      </div>
+      <div class="bonus-card reveal reveal-delay-2">
+        <span class="bonus-tag">Bônus 3</span>
+        <h4>Meditações Guiadas (Áudio)</h4>
+        <p>3 áudios de meditação de 10 minutos para ansiedade, sono e foco. Ouça quando quiser.</p>
+        <div class="bonus-val">Valor: R$ 37,00 — incluso grátis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEPOIMENTOS ══ -->
+<section class="depoimentos">
+  <div class="depo-inner">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Quem já transformou</span>
+    </div>
+    <h2 class="section-h reveal">Resultados reais de <em>pessoas reais</em></h2>
+
+    <div class="depo-grid">
+      <div class="depo-card reveal">
+        <div class="estrelas">★★★★★</div>
+        <span class="aspas">"</span>
+        <p class="depo-texto">Perdi 6 kg em 3 semanas sem passar fome. O capítulo de alimentação mudou completamente minha relação com a comida. Nunca achei que fosse tão simples.</p>
+        <div class="depo-footer">
+          <div class="avatar">CM</div>
+          <div>
+            <div class="depo-nome">Camila Mendes</div>
+            <div class="depo-cidade">São Paulo, SP</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card reveal reveal-delay-1">
+        <div class="estrelas">★★★★★</div>
+        <span class="aspas">"</span>
+        <p class="depo-texto">Dormia mal há anos. Depois do protocolo do capítulo 4, pela primeira vez em muito tempo acordo sem alarme e com disposição de verdade.</p>
+        <div class="depo-footer">
+          <div class="avatar">RF</div>
+          <div>
+            <div class="depo-nome">Ricardo Ferreira</div>
+            <div class="depo-cidade">Belo Horizonte, MG</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card reveal reveal-delay-2">
+        <div class="estrelas">★★★★★</div>
+        <span class="aspas">"</span>
+        <p class="depo-texto">Achei que mais um e-book ia ficar no esquecimento. Mas o formato dia a dia é completamente diferente — segui até o fim e os resultados falam por si.</p>
+        <div class="depo-footer">
+          <div class="avatar">JS</div>
+          <div>
+            <div class="depo-nome">Juliana Santos</div>
+            <div class="depo-cidade">Recife, PE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFERTA ══ -->
+<section class="oferta" id="oferta">
+  <div class="oferta-inner">
+    <div class="oferta-esq">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-line" style="background:#52B788"></span>
+        <span class="eyebrow-text" style="color:#52B788">Oferta de lançamento</span>
+      </div>
+      <h2 class="reveal">Tudo isso por <em>R$ 27,00</em></h2>
+      <p class="oferta-desc reveal">Acesso imediato após o pagamento. Leia no celular, tablet ou computador. Sem mensalidades, sem assinatura.</p>
+
+      <div class="incluso-list">
+        <div class="incluso-row reveal"><span class="incluso-check">✓</span> E-book completo (6 módulos + plano de 21 dias)</div>
+        <div class="incluso-row reveal reveal-delay-1"><span class="incluso-check">✓</span> Planilha de hábitos (Bônus 1)</div>
+        <div class="incluso-row reveal reveal-delay-2"><span class="incluso-check">✓</span> Lista de compras saudáveis (Bônus 2)</div>
+        <div class="incluso-row reveal reveal-delay-3"><span class="incluso-check">✓</span> 3 meditações guiadas em áudio (Bônus 3)</div>
+        <div class="incluso-row reveal reveal-delay-4"><span class="incluso-check">✓</span> Garantia incondicional de 7 dias</div>
+      </div>
+    </div>
+
+    <div class="preco-card reveal">
+      <p class="preco-de">De R$ 97,00</p>
+      <div class="preco-por"><sup>R$</sup>27</div>
+      <p class="preco-parcela">pagamento único · acesso vitalício</p>
+
+      <a href="https://hidepay.site/checkout/v1/?id=OhFHtB6P37ZMaVx6HNyzBMFz"
+         class="btn-comprar" target="_blank" rel="noopener">
+        ⚡ Quero meu e-book agora
+      </a>
+
+      <div class="selos">
+        <div class="selo"><span class="selo-i">🔒</span> Compra segura</div>
+        <div class="selo"><span class="selo-i">⚡</span> Entrega imediata</div>
+        <div class="selo"><span class="selo-i">↩️</span> Garantia 7 dias</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GARANTIA ══ -->
+<section class="garantia">
+  <div class="garantia-inner">
+    <div class="garantia-circulo reveal">
+      <span class="garantia-num">7</span>
+      <span class="garantia-dias">dias</span>
+    </div>
+    <div class="garantia-txt reveal reveal-delay-1">
+      <h3>Garantia incondicional de 7 dias</h3>
+      <p>Se por qualquer motivo você não ficar satisfeito com o e-book, basta enviar um e-mail em até 7 dias após a compra e devolvemos 100% do seu dinheiro — sem burocracia, sem perguntas, sem julgamento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Dúvidas frequentes</span>
+    </div>
+    <h2 class="section-h reveal" style="margin-bottom:0">Perguntas <em>frequentes</em></h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Como recebo o e-book após a compra?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Após o pagamento ser confirmado, você recebe um e-mail automático com o link de download em segundos. O acesso é imediato e vitalício.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Funciona no celular?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Sim! O e-book está em formato PDF e pode ser lido em qualquer dispositivo — celular, tablet ou computador. Você pode também imprimir se preferir.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Preciso ter conhecimento prévio sobre nutrição ou exercícios?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Não. O guia foi desenvolvido especialmente para iniciantes. Cada passo é explicado de forma simples, prática e sem jargões técnicos.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Como funciona a garantia?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Se dentro de 7 dias você não ficar satisfeito por qualquer motivo, basta enviar um e-mail solicitando o reembolso. Devolvemos 100% do valor pago, sem perguntas.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          O pagamento é seguro?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Sim. O pagamento é processado por gateway seguro com criptografia. Seus dados financeiros nunca são armazenados em nossos servidores.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section style="background:var(--verde);padding:80px;text-align:center">
+  <h2 class="reveal" style="font-family:var(--serif);font-size:clamp(28px,3.5vw,48px);font-weight:300;color:var(--menta);margin-bottom:16px">
+    Sua transformação começa <em style="font-weight:600">agora</em>
+  </h2>
+  <p class="reveal" style="font-size:15px;color:rgba(216,243,220,0.65);margin-bottom:40px;font-weight:300">
+    Mais de 3.200 pessoas já começaram. Qual o melhor momento para você?
+  </p>
+  <a href="https://hidepay.site/checkout/v1/?id=OhFHtB6P37ZMaVx6HNyzBMFz"
+     class="btn-hero reveal"
+     style="max-width:360px;margin:0 auto;display:block"
+     target="_blank" rel="noopener">
+    Quero meu e-book por R$ 27,00 →
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">21 Dias</div>
+  <p class="footer-aviso">
+    Os resultados apresentados nos depoimentos são individuais e não garantem os mesmos resultados para todas as pessoas. Este produto é um e-book digital para fins educacionais e informativos, e não substitui orientação médica ou nutricional profissional.
+  </p>
+  <div class="footer-links">
+    <a href="#">Política de Privacidade</a>
+    <a href="#">Termos de Uso</a>
+    <a href="#">Contato</a>
+  </div>
+</footer>
+
+<!-- BOTÃO FLUTUANTE MOBILE -->
+<a href="https://hidepay.site/checkout/v1/?id=OhFHtB6P37ZMaVx6HNyzBMFz"
+   class="fab-comprar" target="_blank" rel="noopener" id="fab">
+  ⚡ Quero o e-book — R$ 27,00
+</a>
+
+<script>
+/* ── FAB: esconde quando está perto do botão principal ── */
+const fabEl = document.getElementById('fab');
+const btnComprar = document.querySelector('.btn-comprar');
+if(btnComprar && fabEl){
+  const fabObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      fabEl.style.opacity = e.isIntersecting ? '0' : '1';
+      fabEl.style.pointerEvents = e.isIntersecting ? 'none' : 'auto';
+    });
+  },{threshold:0.5});
+  fabObs.observe(btnComprar);
+}
+
+/* ── Cursor ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('hover');ring.classList.add('hover')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('hover');ring.classList.remove('hover')});
+});
+
+/* ── Nav scroll ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── Reveal ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── FAQ ── */
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>
